@@ -19,11 +19,11 @@ jobs:
           POSTGRES_DB: buyme_db        # 생성할 DB 이름
         ports:
           - 5432:5432                  # 호스트와 컨테이너 포트 바인딩
-        options: >-                   # 헬스체크 설정
-          --health-cmd="pg_isready -U junewoo -d buyme_db"  # DB 준비 상태 확인 명령
-          --health-interval=10s        # 10초마다 헬스체크 실행
-          --health-timeout=5s          # 헬스체크 최대 대기 시간 5초
-          --health-retries=5           # 헬스체크 실패 시 재시도 횟수 5번
+        options: >-                   # 헬스체크 설정 # DB 준비 상태 확인 명령# 10초마다 헬스체크 실행# 헬스체크 최대 대기 시간 5초 # 헬스체크 실패 시 재시도 횟수 5번
+          --health-cmd="pg_isready -U junewoo -d buyme_db"  
+          --health-interval=10s        
+          --health-timeout=5s          
+          --health-retries=5           
 
     steps:
       - name: Checkout
@@ -48,14 +48,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew        # gradlew 실행 권한 부여
 
-      - name: Wait for PostgreSQL to start
+      - name: Wait for PostgreSQL to start # 최대 10번까지 시도 # 3초 대기 후 재시도 # 10번 실패 시 종료 코드 1 반환 (실패)
         run: |
-          for i in {1..10}; do       # 최대 10번까지 시도
+          for i in {1..10}; do       
             nc -z localhost 5432 && echo "Postgres is up!" && exit 0  # 5432 포트 열렸는지 체크
             echo "Waiting for Postgres..."
-            sleep 3                  # 3초 대기 후 재시도
+            sleep 3                  
           done
-          exit 1                     # 10번 실패 시 종료 코드 1 반환 (실패)
+          exit 1                     
 
       - name: Build with Gradle
         run: ./gradlew build -x test  # 테스트 제외하고 Gradle 빌드 수행
