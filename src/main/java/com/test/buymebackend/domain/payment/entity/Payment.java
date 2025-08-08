@@ -7,7 +7,7 @@ import com.test.buymebackend.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,7 +30,7 @@ public class Payment extends BaseEntity {
     private PaymentMethod method;
 
     @Column(nullable = false)
-    private Long amount;
+    private Integer amount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

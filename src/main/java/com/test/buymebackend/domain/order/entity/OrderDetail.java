@@ -28,8 +28,8 @@ public class OrderDetail extends BaseEntity {
     private Menu menu;
 
     @Column(nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @Column(nullable = false)
-    private Long price;
+    private Integer price;
 }

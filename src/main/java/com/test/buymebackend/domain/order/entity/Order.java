@@ -17,21 +17,21 @@ public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;            // "Key" 컬럼
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private User customer;          // "Key3" 컬럼
+    private User customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private Store store;        // "Key2" 컬럼
+    private Store store;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderStatus status; // "Field" 컬럼
+    private OrderStatus status;
 
     @Column(nullable = false)
-    private Long totalAmount;   // "Field2" 컬럼
+    private Integer totalAmount;
 }
 

@@ -4,6 +4,8 @@ import com.test.buymebackend.domain.order.entity.Order;
 import com.test.buymebackend.domain.user.entity.User;
 import com.test.buymebackend.global.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Entity
@@ -15,7 +17,6 @@ import lombok.*;
 public class Review extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
