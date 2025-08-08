@@ -27,7 +27,9 @@ public class Review extends BaseEntity {
     private User customer;
 
     @Column(nullable = false)
-    private Long rating;
+    @Min(1)
+    @Max(5)
+    private Integer rating;
 
     private String comment;
 
