@@ -35,5 +35,5 @@ public class Payment extends BaseEntity {
     @Column(nullable = false)
     private PaymentStatus status;
 
-    private LocalTime paymentTime;
+    private LocalDateTime paymentTime;
 }
