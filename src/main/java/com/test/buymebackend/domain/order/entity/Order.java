@@ -16,6 +16,7 @@ import lombok.*;
 public class Order extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;            // "Key" 컬럼
 
     @ManyToOne(fetch = FetchType.LAZY)
