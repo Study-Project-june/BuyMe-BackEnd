@@ -18,6 +18,7 @@ import java.time.LocalTime;
 public class Payment extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;            // "Key" 컬럼
 
     @ManyToOne(fetch = FetchType.LAZY)
