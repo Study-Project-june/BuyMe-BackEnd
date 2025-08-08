@@ -41,9 +41,9 @@ public class Store extends BaseEntity {
     private Integer deliveryFee;
 
     @Column(nullable = false)
-    private LocalDateTime openTime;
+    private LocalTime openTime;
 
     @Column(nullable = false)
-    private LocalDateTime closeTime;
+    private LocalTime closeTime;
 }
 
