@@ -3,7 +3,7 @@ package com.test.buymebackend.domain.payment.entity;
 import com.test.buymebackend.domain.enums.PaymentMethod;
 import com.test.buymebackend.domain.enums.PaymentStatus;
 import com.test.buymebackend.domain.order.entity.Order;
-import com.test.buymebackend.global.BaseEntity;
+import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

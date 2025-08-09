@@ -1,7 +1,7 @@
 package com.test.buymebackend.domain.menu.entity;
 
 import com.test.buymebackend.domain.store.entity.Store;
-import com.test.buymebackend.global.BaseEntity;
+import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

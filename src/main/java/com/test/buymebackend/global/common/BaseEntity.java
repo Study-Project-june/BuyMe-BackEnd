@@ -1,4 +1,4 @@
-package com.test.buymebackend.global;
+package com.test.buymebackend.global.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
