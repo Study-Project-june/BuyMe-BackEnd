@@ -1,7 +1,7 @@
 package com.test.buymebackend.domain.store.entity;
 
 import com.test.buymebackend.domain.enums.StoreType;
-import com.test.buymebackend.domain.user.entity.User;
+import com.test.buymebackend.domain.member.entity.Member;
 import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,7 +22,7 @@ public class Store extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private User owner;
+    private Member owner;
 
     @Column(nullable = false)
     private String name;

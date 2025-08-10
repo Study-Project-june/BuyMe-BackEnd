@@ -2,7 +2,7 @@ package com.test.buymebackend.domain.order.entity;
 
 import com.test.buymebackend.domain.enums.OrderStatus;
 import com.test.buymebackend.domain.store.entity.Store;
-import com.test.buymebackend.domain.user.entity.User;
+import com.test.buymebackend.domain.member.entity.Member;
 import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +21,7 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private User customer;
+    private Member customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
