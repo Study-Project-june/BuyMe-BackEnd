@@ -1,6 +1,6 @@
-package com.test.buymebackend.domain.user.entity;
+package com.test.buymebackend.domain.member.entity;
 
-import com.test.buymebackend.domain.enums.UserRole;
+import com.test.buymebackend.domain.enums.MemberRole;
 import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,5 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private MemberRole role;
 }
