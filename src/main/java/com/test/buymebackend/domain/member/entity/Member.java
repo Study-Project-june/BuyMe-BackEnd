@@ -1,4 +1,4 @@
-package com.test.buymebackend.domain.user.entity;
+package com.test.buymebackend.domain.member.entity;
 
 import com.test.buymebackend.domain.enums.UserRole;
 import com.test.buymebackend.global.common.BaseEntity;
@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
