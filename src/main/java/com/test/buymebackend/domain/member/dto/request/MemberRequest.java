@@ -26,8 +26,5 @@ public class MemberRequest {
         @Size(min = 2, max = 10, message = "이름은 2자 이상 10자 이하여야 합니다.")
         private String name;
 
-        @NotNull(message = "설정값은 기본입니다.")
-        private UserRole role;
-
     }
 }
