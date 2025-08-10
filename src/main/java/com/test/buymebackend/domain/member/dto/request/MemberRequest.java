@@ -1,6 +1,5 @@
 package com.test.buymebackend.domain.member.dto.request;
 
-import com.test.buymebackend.domain.enums.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

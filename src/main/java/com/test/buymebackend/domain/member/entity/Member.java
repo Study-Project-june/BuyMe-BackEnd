@@ -1,6 +1,6 @@
 package com.test.buymebackend.domain.member.entity;
 
-import com.test.buymebackend.domain.enums.UserRole;
+import com.test.buymebackend.domain.enums.MemberRole;
 import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,5 +29,5 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private MemberRole role;
 }
