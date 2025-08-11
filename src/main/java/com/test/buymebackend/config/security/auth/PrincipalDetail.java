@@ -1,13 +1,12 @@
 package com.test.buymebackend.config.security.auth;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
-
 import com.test.buymebackend.domain.member.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Member 엔티티를 직접 감싸서 Spring Security의 UserDetails로 사용합니다.
