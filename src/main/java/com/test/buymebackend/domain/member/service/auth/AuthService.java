@@ -7,4 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface AuthService {
 
     void signup(MemberRequest.SignUpRequest request);
+
+    String login(MemberRequest.LoginRequest request);
 }

@@ -42,9 +42,10 @@ public class AuthController {
     //TODO spring security 와 jwt 로 로그인 기능 구현하기
     @PostMapping(value = "/login")
     @Operation(summary = "로그인 API")
-    public ResponseEntity<Void> login(
-
+    public ResponseEntity<String> login(
+            @RequestBody MemberRequest.LoginRequest request
     ){
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        String token = authService.login(request);
+        return ResponseEntity.ok(token);
     }
 }
