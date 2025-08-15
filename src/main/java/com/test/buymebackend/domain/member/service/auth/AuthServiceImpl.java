@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new BadCredentialsException("잘못된 계정정보입니다."));
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new BadCredentialsException("잘못된 비밀번호입니다.");
+            throw new BadCredentialsException("잘못된 계정정보입니다.");
         }
         return jwtTokenProvider.createToken(member.getEmail(), member.getRole().name());
     }
