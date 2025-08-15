@@ -27,14 +27,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                //.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth
-                                // [수정 2] 만약을 위해 필터 체인 내부에서도 /api가 붙은 경로를 명시적으로 허용합니다.
-                                //.requestMatchers("/api/swagger-ui/**", "/api/v3/api-docs/**").permitAll()
                                 .requestMatchers(PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated()
                 )

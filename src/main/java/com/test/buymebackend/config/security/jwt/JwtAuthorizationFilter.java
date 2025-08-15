@@ -26,12 +26,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
-        // 헤더에서 토큰을 가져옵니다.
+        //헤더에서 필요없는 String 빼고 jwt 토큰 값만 가져오기
         String token = jwtTokenProvider.resolveToken(request);
         String path = request.getRequestURI();
 
-        // [핵심 디버깅 코드] 실제 요청 경로를 콘솔에 출력합니다.
+        //TODO 예외처리 구현 try catch 를 통해
         System.out.println(">>> JwtAuthenticationFilter - Incoming Request Path: " + path);
 
         // 토큰이 존재하고 유효하다면, 인증 정보를 SecurityContext에 저장합니다.

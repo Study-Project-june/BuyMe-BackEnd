@@ -22,7 +22,6 @@ public record PrincipalDetail(Member member) implements UserDetails {
 
     @Override
     public String getPassword() {
-        // 비밀번호는 Member 엔티티에서 직접 가져옵니다.
         return member.getPassword();
     }
 
