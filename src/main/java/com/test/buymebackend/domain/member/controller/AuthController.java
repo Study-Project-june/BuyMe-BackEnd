@@ -34,7 +34,7 @@ public class AuthController {
                     content = @Content(mediaType = "application/json")),
     })
     public BaseResponse<Void> signup(
-            @Valid @RequestBody MemberRequest.SignUpRequest request
+            @RequestBody @Valid MemberRequest.SignUpRequest request
             //@RequestPart(name = "profileImage", required = false) MultipartFile profileImage
     ) {
         authService.signup(request);
