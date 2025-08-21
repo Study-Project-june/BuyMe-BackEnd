@@ -1,11 +1,9 @@
 package com.test.buymebackend.config;
 
-//import com.test.buymebackend.config.security.jwt.JwtAuthenticationFilter;
 
 import com.test.buymebackend.config.security.jwt.JwtAuthenticationFilter;
 import com.test.buymebackend.config.security.jwt.JwtAuthorizationFilter;
 import com.test.buymebackend.config.security.jwt.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
