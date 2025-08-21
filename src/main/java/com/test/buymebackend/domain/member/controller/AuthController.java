@@ -3,6 +3,7 @@ package com.test.buymebackend.domain.member.controller;
 
 import com.test.buymebackend.domain.member.dto.request.MemberRequest;
 import com.test.buymebackend.domain.member.service.auth.AuthService;
+import com.test.buymebackend.global.common.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,21 +34,20 @@ public class AuthController {
             @ApiResponse(responseCode = "VALID001", description = "잘못된 입력값입니다",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<Void> signup(
+    public BaseResponse<Void> signup(
             @Valid @RequestBody MemberRequest.SignUpRequest request
             //@RequestPart(name = "profileImage", required = false) MultipartFile profileImage
     ) {
         authService.signup(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return BaseResponse.success("회원가입 성공했습니다.",null);
     }
 
     //TODO spring security 와 jwt 로 로그인 기능 구현하기
     @PostMapping(value = "/login")
     @Operation(summary = "로그인 API")
-    public ResponseEntity<String> login(
+    public void login(
             @RequestBody MemberRequest.LoginRequest request
     ){
-        String token = authService.login(request);
-        return ResponseEntity.ok(token);
+        //필터에서 구현되도록 처리
     }
 }

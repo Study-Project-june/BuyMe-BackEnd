@@ -7,5 +7,5 @@ public interface AuthService {
 
     void signup(MemberRequest.SignUpRequest request);
 
-    String login(MemberRequest.LoginRequest request);
+    //String login(MemberRequest.LoginRequest request);
 }
