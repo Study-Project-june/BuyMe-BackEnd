@@ -45,12 +45,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             MemberRequest.LoginRequest loginDto = new ObjectMapper().readValue(
                     request.getInputStream(), MemberRequest.LoginRequest.class
             );
-
+            //인증요청하는 Authentication 토큰 생성(아이디와 비밀번호를 갖고)
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     loginDto.getEmail(),
                     loginDto.getPassword()
             );
-
+            //해당 토큰을 갖고 해당 아디이와 비밀번호가 DB 에 저장되어있는 값과 동일한지 확인함
+            //DaoAuthenticationProvide 가 동작하게 되는데 이때 UserDetailsService 를 실행시키지만
+            //PrincipalDetailService 로 상속받았기 때문에 PrincipalDetailService 가 실행됨
             return authenticationManager.authenticate(authToken);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -86,7 +88,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setCharacterEncoding("UTF-8");
 
         BaseResponse<Void> errorResponse;
-
 
         if (failed instanceof InternalAuthenticationServiceException &&
                 failed.getCause() instanceof CustomException customException) {
