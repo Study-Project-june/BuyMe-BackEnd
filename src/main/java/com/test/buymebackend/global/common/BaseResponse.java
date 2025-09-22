@@ -22,40 +22,42 @@ public record BaseResponse<T>(
         @Schema(description = "응답 시간")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
         LocalDateTime timestamp
-) {
+)
+{
 
     public static <T> BaseResponse<T> success(String message, T data) {
-        return new BaseResponse<>("SUCCESS", message, data , null , LocalDateTime.now());
-    }
-
-
-    public static BaseResponse<Void> error(ResultCode errorCode) {
         return new BaseResponse<>(
-                errorCode.getCode(),
-                errorCode.getMessage(),
-                null,
-                errorCode.getClass().getSimpleName(),
-                LocalDateTime.now()
-        );
-    }
-
-    public static <T> BaseResponse<T> error(ResultCode errorCode, String message) {
-        return new BaseResponse<>(
-                errorCode.getCode(),
+                CommonResultCode.SUCCESS.getCode(),
                 message,
-                null,
-                errorCode.getClass().getSimpleName(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                data
         );
     }
 
-    public static <T> BaseResponse<T> error(ResultCode errorCode, T errors) {
+    public static <T> BaseResponse<T> error(ResultCode resultCode) {
         return new BaseResponse<>(
-                errorCode.getCode(),
-                errorCode.getMessage(),
-                errors,
-                errorCode.getClass().getSimpleName(),
-                LocalDateTime.now()
+                resultCode.getCode(),
+                resultCode.getMessage(),
+                LocalDateTime.now(),
+                null
+        );
+    }
+
+    public static <T> BaseResponse<T> error(ResultCode resultCode, String message) {
+        return new BaseResponse<>(
+                resultCode.getCode(),
+                message,
+                LocalDateTime.now(),
+                null
+        );
+    }
+
+    public static <T> BaseResponse<T> error(ResultCode resultCode, T errors) {
+        return new BaseResponse<>(
+                resultCode.getCode(),
+                resultCode.getMessage(),
+                LocalDateTime.now(),
+                errors
         );
     }
 }

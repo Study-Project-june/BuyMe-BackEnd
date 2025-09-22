@@ -1,5 +1,7 @@
 package com.test.buymebackend.config.security.jwt;
 
+import com.test.buymebackend.domain.member.exception.AuthErrorCode;
+import com.test.buymebackend.global.error.exception.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -25,7 +27,6 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    // [수정 1] String secretKey를 Key 객체로 변경하여 관리합니다.
     private Key key;
 
     private final long tokenValidTime = 30 * 60 * 1000L;
@@ -34,7 +35,6 @@ public class JwtTokenProvider {
     // [수정 2] 객체 초기화: secretKey 문자열을 Key 객체로 변환합니다.
     @PostConstruct
     protected void init() {
-        // secretKey를 바이트 배열로 변환
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         // HMAC-SHA 키 생성
         this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -46,6 +46,7 @@ public class JwtTokenProvider {
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
@@ -70,7 +71,6 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다.
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -85,14 +85,13 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            throw new CustomException(AuthErrorCode.INVALID_TOKEN);
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            throw new CustomException(AuthErrorCode.UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            throw new CustomException(AuthErrorCode.INVALID_TOKEN_FORMAT);
+        } catch (ExpiredJwtException e) {
+            throw new CustomException(AuthErrorCode.EXPIRED_TOKEN);
         }
-        return false;
     }
 }
