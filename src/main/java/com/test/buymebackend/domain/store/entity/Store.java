@@ -1,6 +1,6 @@
 package com.test.buymebackend.domain.store.entity;
 
-import com.test.buymebackend.domain.enums.StoreType;
+import com.test.buymebackend.domain.enums.StoreCateory;
 import com.test.buymebackend.domain.member.entity.Member;
 import com.test.buymebackend.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -29,7 +29,7 @@ public class Store extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StoreType category;
+    private StoreCateory category;
 
     @Column(nullable = false)
     private String address;
