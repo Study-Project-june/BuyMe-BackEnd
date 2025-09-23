@@ -1,4 +1,4 @@
-package com.test.buymebackend.global.error.exception;
+package com.test.buymebackend.global.exception;
 
 import com.test.buymebackend.global.common.ResultCode;
 import lombok.Getter;
