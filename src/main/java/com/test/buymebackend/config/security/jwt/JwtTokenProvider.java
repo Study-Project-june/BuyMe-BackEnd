@@ -1,7 +1,7 @@
 package com.test.buymebackend.config.security.jwt;
 
 import com.test.buymebackend.domain.member.exception.AuthErrorCode;
-import com.test.buymebackend.global.error.exception.CustomException;
+import com.test.buymebackend.global.exception.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
