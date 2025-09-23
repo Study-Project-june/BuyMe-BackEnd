@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum StoreType {
+public enum StoreCateory {
     KOREAN("korean", "한식"),
     CHINESE("chinese", "중식"),
     WESTERN("western", "양식"),
