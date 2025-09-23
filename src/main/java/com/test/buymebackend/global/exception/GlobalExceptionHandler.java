@@ -1,6 +1,8 @@
 package com.test.buymebackend.global.exception;
 
 import com.test.buymebackend.global.common.BaseResponse;
+import com.test.buymebackend.global.error.CommonErrorCode;
+import com.test.buymebackend.global.exception.response.ValidationError;
 import com.test.buymebackend.global.exception.response.ValidationErrors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,21 +34,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<BaseResponse<ValidationErrors>> handleValidationException(MethodArgumentNotValidException ex) {
-        List<ValidationErrors.FieldErrorDetail> fieldErrors = ex.getBindingResult()
+        List<ValidationError> validationErrorList = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> new ValidationErrors.FieldErrorDetail(
+                .map(error -> new ValidationError(
                         error.getField(),
                         error.getDefaultMessage()
                 ))
                 .toList();
 
-        fieldErrors.forEach(error ->
+        validationErrorList.forEach(error ->
                 log.error("Validation error - field: {}, message: {}", error.getField(), error.getMessage())
         );
 
         ValidationErrors validationErrors = new ValidationErrors(
-                fieldErrors,
+                validationErrorList,
                 ex.getClass().getSimpleName()
         );
 
