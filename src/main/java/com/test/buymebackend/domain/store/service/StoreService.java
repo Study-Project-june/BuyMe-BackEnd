@@ -2,6 +2,8 @@ package com.test.buymebackend.domain.store.service;
 
 
 import com.test.buymebackend.domain.enums.StoreCateory;
+import com.test.buymebackend.domain.menu.dto.response.MenuResponse;
+import com.test.buymebackend.domain.menu.repository.MenuRepository;
 import com.test.buymebackend.domain.store.dto.response.StoreResponse;
 import com.test.buymebackend.domain.store.entity.Store;
 import com.test.buymebackend.domain.store.mapper.StoreMapper;
@@ -21,8 +23,9 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
+    private final MenuRepository menuRepository;
 
-    public StoreResponse.StoreReponseList getStores(Integer page, StoreCateory category) {
+    public StoreResponse.StoreResponseList getStores(Integer page, StoreCateory category) {
 
         Pageable pageable = PageRequest.of(page, 10);
         Page<Store> storePage;
@@ -37,17 +40,55 @@ public class StoreService {
         }
 
 
-        List<StoreResponse.StoreReponse> storeResponses = storePage.stream()
+        List<StoreResponse.StoreInfoResponse> storeInfoResponse = storePage.stream()
                 .map(store -> {
                     boolean openNow = isOpenNow(store);
                     return storeMapper.toStoreResponse(store, openNow);
                 })
                 .toList();
-        return new StoreResponse.StoreReponseList(storeResponses);
+        return new StoreResponse.StoreResponseList(storeInfoResponse);
     }
 
     private boolean isOpenNow(Store store) {
         LocalTime now = LocalTime.now();
         return !now.isBefore(store.getOpenTime()) && !now.isAfter(store.getCloseTime());
+    }
+
+    public StoreResponse.StoreSelectResponse getStoreDetail(Long storeId) {
+        Store store = storeRepository.getStore(storeId);
+
+        boolean openNow = isOpenNow(store);
+
+        // 메뉴 조회
+        List<MenuResponse.MenuDto> menus = menuRepository.findByStoreId(storeId).stream()
+                .map(menu -> new MenuResponse.MenuDto(
+                        menu.getName(),
+                        menu.getPrice(),
+                        menu.getDescription(),
+                        menu.getImageUrl()
+                ))
+                .toList();
+
+//        // 리뷰는 추후 수정
+//        List<ReviewDto> reviews = reviewRepository.findByStoreId(storeId).stream()
+//                .map(review -> new ReviewDto(
+//                        review.getContent(),
+//                        review.getRating(),
+//                        review.getCreatedAt()
+//                ))
+//                .toList();
+
+        return StoreResponse.StoreSelectResponse.builder()
+                .name(store.getName())
+                .storeCateory(store.getCategory())
+                .address(store.getAddress())
+                .minimumOrderPrice(store.getMinimumOrderPrice())
+                .deliveryFee(store.getDeliveryFee())
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .isOpenNow(openNow)
+                .menus(menus)
+                //.reviews(reviews)
+                .build();
     }
 }

@@ -1,7 +1,6 @@
 package com.test.buymebackend.domain.store.controller;
 
 import com.test.buymebackend.domain.enums.StoreCateory;
-import com.test.buymebackend.domain.store.dto.request.StoreRequest;
 import com.test.buymebackend.domain.store.dto.response.StoreResponse;
 import com.test.buymebackend.domain.store.service.StoreService;
 import com.test.buymebackend.global.common.BaseResponse;
@@ -21,26 +20,19 @@ public class StoreController {
 
     @Operation(summary = "상점 목록 조회", description = "카테고리별, 지역별 상점 리스트를 조회합니다.")
     @GetMapping
-    public BaseResponse<StoreResponse.StoreReponseList> getStores(
+    public BaseResponse<StoreResponse.StoreResponseList> getStores(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) StoreCateory category
     ) {
         return BaseResponse.success("성공적으로 매장 정보를 불러왔습니다.",storeService.getStores(page,category));
     }
 
-    /**
-     * 상점 상세 조회
-     */
     @Operation(summary = "상점 상세 조회", description = "메뉴, 리뷰 포함 상점 상세 정보를 조회합니다.")
     @GetMapping("/{storeId}")
-    public String getStoreDetail(@PathVariable Long storeId) {
-        // TODO: 서비스 호출 후 BaseResponse 반환
-        return "상점 상세 조회: " + storeId;
+    public BaseResponse<StoreResponse.StoreSelectResponse> getStoreDetail(@PathVariable Long storeId) {
+        return BaseResponse.success("매장아디기가 " + storeId +" 인 정보를 불러왔습니다." , storeService.getStoreDetail(storeId));
     }
 
-    /**
-     * 상점 등록 (사장용)
-     */
     @Operation(summary = "상점 등록", description = "사장님이 가게 정보를 등록합니다.")
     @PostMapping
     public String createStore() {
@@ -48,9 +40,6 @@ public class StoreController {
         return "상점 등록";
     }
 
-    /**
-     * 상점 정보 수정
-     */
     @Operation(summary = "상점 정보 수정", description = "사장님이 가게 정보를 수정합니다.")
     @PatchMapping("/{storeId}")
     public String updateStore(@PathVariable Long storeId) {
@@ -58,9 +47,6 @@ public class StoreController {
         return "상점 수정: " + storeId;
     }
 
-    /**
-     * 상점 상태 변경 (영업/휴무)
-     */
     @Operation(summary = "상점 상태 변경", description = "사장님이 가게 상태(영업/휴무)를 변경합니다.")
     @PatchMapping("/{storeId}/status")
     public String updateStoreStatus(@PathVariable Long storeId) {

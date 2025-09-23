@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StoreMapper {
-    public StoreResponse.StoreReponse toStoreResponse(Store store , boolean isOpenNow) {
-        return StoreResponse.StoreReponse.builder()
+    public StoreResponse.StoreInfoResponse toStoreResponse(Store store , boolean isOpenNow) {
+        return StoreResponse.StoreInfoResponse.builder()
                 .name(store.getName())
                 .storeCateory(store.getCategory())
                 .address(store.getAddress())

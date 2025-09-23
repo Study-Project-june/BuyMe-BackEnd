@@ -1,6 +1,7 @@
 package com.test.buymebackend.domain.store.dto.response;
 
 import com.test.buymebackend.domain.enums.StoreCateory;
+import com.test.buymebackend.domain.menu.dto.response.MenuResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class StoreResponse {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class StoreReponse {
+    public static class StoreInfoResponse {
         private String name;
         private StoreCateory storeCateory;
         private String address;
@@ -28,7 +29,25 @@ public class StoreResponse {
 
     @Getter
     @AllArgsConstructor
-    public static class StoreReponseList{
-        private List<StoreReponse> storeReponses;
+    public static class StoreResponseList{
+        private List<StoreInfoResponse> storeReponses;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class StoreSelectResponse {
+        private String name;
+        private StoreCateory storeCateory;
+        private String address;
+        private Integer minimumOrderPrice;
+        private Integer deliveryFee;
+        private LocalTime openTime;
+        private LocalTime closeTime;
+        private boolean isOpenNow;
+        private List<MenuResponse.MenuDto> menus;
+        //private List<ReviewDto> reviews; // 리뷰 엔티티 추후 추가
+    }
+
 }
