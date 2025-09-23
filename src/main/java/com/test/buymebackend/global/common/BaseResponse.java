@@ -26,38 +26,37 @@ public record BaseResponse<T>(
 {
 
     public static <T> BaseResponse<T> success(String message, T data) {
+        return new BaseResponse<>("SUCCESS", message, data , null , LocalDateTime.now());
+    }
+
+
+    public static BaseResponse<Void> error(ResultCode errorCode) {
         return new BaseResponse<>(
-                CommonResultCode.SUCCESS.getCode(),
+                errorCode.getCode(),
+                errorCode.getMessage(),
+                null,
+                errorCode.getClass().getSimpleName(),
+                LocalDateTime.now()
+        );
+    }
+
+    public static <T> BaseResponse<T> error(ResultCode errorCode, String message) {
+        return new BaseResponse<>(
+                errorCode.getCode(),
                 message,
-                LocalDateTime.now(),
-                data
+                null,
+                errorCode.getClass().getSimpleName(),
+                LocalDateTime.now()
         );
     }
 
-    public static <T> BaseResponse<T> error(ResultCode resultCode) {
+    public static <T> BaseResponse<T> error(ResultCode errorCode, T errors) {
         return new BaseResponse<>(
-                resultCode.getCode(),
-                resultCode.getMessage(),
-                LocalDateTime.now(),
-                null
-        );
-    }
-
-    public static <T> BaseResponse<T> error(ResultCode resultCode, String message) {
-        return new BaseResponse<>(
-                resultCode.getCode(),
-                message,
-                LocalDateTime.now(),
-                null
-        );
-    }
-
-    public static <T> BaseResponse<T> error(ResultCode resultCode, T errors) {
-        return new BaseResponse<>(
-                resultCode.getCode(),
-                resultCode.getMessage(),
-                LocalDateTime.now(),
-                errors
+                errorCode.getCode(),
+                errorCode.getMessage(),
+                errors,
+                errorCode.getClass().getSimpleName(),
+                LocalDateTime.now()
         );
     }
 }
