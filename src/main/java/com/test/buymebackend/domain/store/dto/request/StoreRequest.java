@@ -13,14 +13,7 @@ import java.time.LocalTime;
 @Getter
 @AllArgsConstructor
 public class StoreRequest {
-
-    @Getter
-    @AllArgsConstructor
-    public static class GetStores {
-        private StoreCateory storeCateory;
-        private int page;
-    }
-
+    
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
