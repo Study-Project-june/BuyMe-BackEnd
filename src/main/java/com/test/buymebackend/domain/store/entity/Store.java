@@ -45,5 +45,6 @@ public class Store extends BaseEntity {
 
     @Column(nullable = false)
     private LocalTime closeTime;
+
 }
 

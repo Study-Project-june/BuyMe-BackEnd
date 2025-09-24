@@ -9,6 +9,7 @@ import com.test.buymebackend.domain.store.service.StoreService;
 import com.test.buymebackend.global.common.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +50,12 @@ public class StoreController {
 
     @Operation(summary = "상점 정보 수정", description = "사장님이 가게 정보를 수정합니다.")
     @PatchMapping("/{storeId}")
-    public String updateStore(@PathVariable Long storeId) {
-        // TODO: 서비스 호출 후 BaseResponse 반환
-        return "상점 수정: " + storeId;
+    public BaseResponse<StoreResponse.StoreInfoResponse> updateStore(
+            @PathVariable Long storeId,
+            @Valid @RequestBody StoreRequest.UpdateRequest request,
+            @AuthenticationPrincipal PrincipalDetail principalDetail
+    ) {
+        return BaseResponse.success("성공적으로 가게 정보가 수정되었습니다. ",storeService.updateStore(principalDetail.member(),storeId, request));
     }
 
     @Operation(summary = "상점 상태 변경", description = "사장님이 가게 상태(영업/휴무)를 변경합니다.")

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -111,5 +112,25 @@ public class StoreService {
         Store createdStore = storeMapper.toEntity(request , owner);
         storeRepository.save(createdStore);
         return createdStore;
+    }
+
+    @Transactional
+    public StoreResponse.StoreInfoResponse updateStore(Member owner ,Long storeId, StoreRequest.UpdateRequest request) {
+        Store store = storeRepository.getStore(storeId);
+
+        if (!Objects.equals(store.getOwner().getId(), owner.getId())) {
+            throw new GlobalException(StoreErrorCode.STORE_ACCESS_DENIED);
+        }
+
+        if (request.getName() != null) store.setName(request.getName());
+        if (request.getCategory() != null) store.setCategory(request.getCategory());
+        if (request.getAddress() != null) store.setAddress(request.getAddress());
+        if (request.getMinimumOrderPrice() != null) store.setMinimumOrderPrice(request.getMinimumOrderPrice());
+        if (request.getDeliveryFee() != null) store.setDeliveryFee(request.getDeliveryFee());
+        if (request.getOpenTime() != null) store.setOpenTime(request.getOpenTime());
+        if (request.getCloseTime() != null) store.setCloseTime(request.getCloseTime());
+
+
+        return storeMapper.toStoreResponse(store);
     }
 }

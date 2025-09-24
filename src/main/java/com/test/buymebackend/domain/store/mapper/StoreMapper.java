@@ -22,6 +22,18 @@ public class StoreMapper {
                 .build();
     }
 
+    public StoreResponse.StoreInfoResponse toStoreResponse(Store store) {
+        return StoreResponse.StoreInfoResponse.builder()
+                .name(store.getName())
+                .storeCateory(store.getCategory())
+                .address(store.getAddress())
+                .minimumOrderPrice(store.getMinimumOrderPrice())
+                .deliveryFee(store.getDeliveryFee())
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .build();
+    }
+
     public Store toEntity(StoreRequest.CreateStoreRequest storeRequest , Member owner) {
         return Store.builder()
                 .owner(owner)

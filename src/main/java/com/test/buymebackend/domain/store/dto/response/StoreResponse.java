@@ -2,6 +2,7 @@ package com.test.buymebackend.domain.store.dto.response;
 
 import com.test.buymebackend.domain.enums.StoreCateory;
 import com.test.buymebackend.domain.menu.dto.response.MenuResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +23,10 @@ public class StoreResponse {
         private String address;
         private Integer minimumOrderPrice;
         private Integer deliveryFee;
+
+        @Schema(type = "string", example = "21:00", description = "상점 오픈 시간 (HH:mm)")
         private LocalTime openTime;
+        @Schema(type = "string", example = "21:00", description = "상점 마감 시간 (HH:mm)")
         private LocalTime closeTime;
         private boolean isOpenNow;
     }
@@ -43,7 +47,9 @@ public class StoreResponse {
         private String address;
         private Integer minimumOrderPrice;
         private Integer deliveryFee;
+        @Schema(type = "string", example = "21:00", description = "상점 오픈 시간 (HH:mm)")
         private LocalTime openTime;
+        @Schema(type = "string", example = "21:00", description = "상점 마감 시간 (HH:mm)")
         private LocalTime closeTime;
         private boolean isOpenNow;
         private List<MenuResponse.MenuDto> menus;
