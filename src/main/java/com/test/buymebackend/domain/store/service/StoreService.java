@@ -1,18 +1,25 @@
 package com.test.buymebackend.domain.store.service;
 
 
+import com.test.buymebackend.domain.enums.MemberRole;
 import com.test.buymebackend.domain.enums.StoreCateory;
+import com.test.buymebackend.domain.member.entity.Member;
 import com.test.buymebackend.domain.menu.dto.response.MenuResponse;
 import com.test.buymebackend.domain.menu.repository.MenuRepository;
+import com.test.buymebackend.domain.store.dto.request.StoreRequest;
 import com.test.buymebackend.domain.store.dto.response.StoreResponse;
 import com.test.buymebackend.domain.store.entity.Store;
+import com.test.buymebackend.domain.store.exception.StoreErrorCode;
 import com.test.buymebackend.domain.store.mapper.StoreMapper;
 import com.test.buymebackend.domain.store.repository.StoreRepository;
+import com.test.buymebackend.global.error.CommonErrorCode;
+import com.test.buymebackend.global.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -90,5 +97,19 @@ public class StoreService {
                 .menus(menus)
                 //.reviews(reviews)
                 .build();
+    }
+
+    @Transactional
+    public Store createStore(Member owner, StoreRequest.CreateStoreRequest request) {
+        if(!owner.getRole().equals(MemberRole.OWNER)){
+            throw new GlobalException(CommonErrorCode.ACCESS_DENIED , "가게 등록은 사장님만 가능합니다.");
+        }
+        boolean exists = storeRepository.existsByName(request.getName());
+        if (exists) {
+            throw new GlobalException(StoreErrorCode.STORE_ALREADY_EXISTS);
+        }
+        Store createdStore = storeMapper.toEntity(request , owner);
+        storeRepository.save(createdStore);
+        return createdStore;
     }
 }

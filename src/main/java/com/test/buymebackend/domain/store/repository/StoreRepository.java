@@ -18,4 +18,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
         return findById(id)
                 .orElseThrow(() ->new GlobalException(StoreErrorCode.STORE_NOT_FOUND , id.toString() ));
     }
+
+    boolean existsByName(String name);
 }

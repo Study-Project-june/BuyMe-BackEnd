@@ -1,12 +1,16 @@
 package com.test.buymebackend.domain.store.controller;
 
+import com.test.buymebackend.config.security.auth.PrincipalDetail;
 import com.test.buymebackend.domain.enums.StoreCateory;
+import com.test.buymebackend.domain.store.dto.request.StoreRequest;
 import com.test.buymebackend.domain.store.dto.response.StoreResponse;
+import com.test.buymebackend.domain.store.entity.Store;
 import com.test.buymebackend.domain.store.service.StoreService;
 import com.test.buymebackend.global.common.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Store API", description = "상점(가게) 관리 API")
@@ -35,9 +39,12 @@ public class StoreController {
 
     @Operation(summary = "상점 등록", description = "사장님이 가게 정보를 등록합니다.")
     @PostMapping
-    public String createStore() {
-        // TODO: 서비스 호출 후 BaseResponse 반환
-        return "상점 등록";
+    public BaseResponse<Long> createStore(
+            @RequestBody StoreRequest.CreateStoreRequest request,
+            @AuthenticationPrincipal PrincipalDetail principalDetail
+    ) {
+        Store createdStore = storeService.createStore(principalDetail.member() , request);
+        return BaseResponse.success("성공적으로 가게 정보가 등록되었습니다." , createdStore.getId());
     }
 
     @Operation(summary = "상점 정보 수정", description = "사장님이 가게 정보를 수정합니다.")
