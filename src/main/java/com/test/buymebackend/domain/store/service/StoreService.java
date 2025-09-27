@@ -15,6 +15,9 @@ import com.test.buymebackend.domain.store.repository.StoreRepository;
 import com.test.buymebackend.global.error.CommonErrorCode;
 import com.test.buymebackend.global.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,14 +30,16 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StoreService {
 
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
     private final MenuRepository menuRepository;
 
+    @Cacheable(cacheNames = "store:list", key = "T(java.util.Objects).toString(#page) + ':' + T(java.util.Objects).toString(#category)")
+    @Transactional
     public StoreResponse.StoreResponseList getStores(Integer page, StoreCateory category) {
-
         Pageable pageable = PageRequest.of(page, 10);
         Page<Store> storePage;
         if (category == null) {
@@ -62,7 +67,11 @@ public class StoreService {
         return !now.isBefore(store.getOpenTime()) && !now.isAfter(store.getCloseTime());
     }
 
+    @Cacheable(cacheNames = "store:detail", key = "#storeId")
+    @Transactional
     public StoreResponse.StoreSelectResponse getStoreDetail(Long storeId) {
+        log.info("[TEST] DB HIT - getStoreDetail({})", storeId);
+        System.out.println("[TEST] DB HIT - getStoreDetail(" + storeId + ")");
         Store store = storeRepository.getStore(storeId);
 
         boolean openNow = isOpenNow(store);
@@ -101,6 +110,7 @@ public class StoreService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = {"store:list", "store:detail", "store:menus"}, allEntries = true)
     public Store createStore(Member owner, StoreRequest.CreateStoreRequest request) {
         if(!owner.getRole().equals(MemberRole.OWNER)){
             throw new GlobalException(CommonErrorCode.ACCESS_DENIED , "가게 등록은 사장님만 가능합니다.");
@@ -115,6 +125,7 @@ public class StoreService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = {"store:list", "store:detail", "store:menus"}, allEntries = true)
     public StoreResponse.StoreInfoResponse updateStore(Member owner ,Long storeId, StoreRequest.UpdateRequest request) {
         Store store = storeRepository.getStore(storeId);
 
