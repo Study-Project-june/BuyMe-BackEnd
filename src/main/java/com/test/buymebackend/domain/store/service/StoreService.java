@@ -70,8 +70,8 @@ public class StoreService {
     @Cacheable(cacheNames = "store:detail", key = "#storeId")
     @Transactional
     public StoreResponse.StoreSelectResponse getStoreDetail(Long storeId) {
-        log.info("[TEST] DB HIT - getStoreDetail({})", storeId);
-        System.out.println("[TEST] DB HIT - getStoreDetail(" + storeId + ")");
+//        log.info("[TEST] DB HIT - getStoreDetail({})", storeId);
+//        System.out.println("[TEST] DB HIT - getStoreDetail(" + storeId + ")");
         Store store = storeRepository.getStore(storeId);
 
         boolean openNow = isOpenNow(store);
@@ -110,7 +110,7 @@ public class StoreService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {"store:list", "store:detail", "store:menus"}, allEntries = true)
+    @CacheEvict(cacheNames = {"store:list"}, allEntries = true)
     public Store createStore(Member owner, StoreRequest.CreateStoreRequest request) {
         if(!owner.getRole().equals(MemberRole.OWNER)){
             throw new GlobalException(CommonErrorCode.ACCESS_DENIED , "가게 등록은 사장님만 가능합니다.");
@@ -125,7 +125,7 @@ public class StoreService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {"store:list", "store:detail", "store:menus"}, allEntries = true)
+    @CacheEvict(cacheNames = {"store:list", "store:detail", "store:menus"}, key = "#storeId", allEntries = false)
     public StoreResponse.StoreInfoResponse updateStore(Member owner ,Long storeId, StoreRequest.UpdateRequest request) {
         Store store = storeRepository.getStore(storeId);
 
