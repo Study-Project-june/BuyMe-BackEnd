@@ -1,6 +1,7 @@
 package com.test.buymebackend.config;
 
 
+import com.test.buymebackend.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.test.buymebackend.config.security.jwt.JwtAuthenticationFilter;
 import com.test.buymebackend.config.security.jwt.JwtAuthorizationFilter;
 import com.test.buymebackend.config.security.jwt.JwtTokenProvider;
@@ -25,10 +26,15 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     //TODO IOC 와 DI 내용 공부하기 아래와 같이 생성자를 만들면 알아서 값을 넣어줌
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider, AuthenticationConfiguration authenticationConfiguration) {
+    public SecurityConfig(
+                          JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                          JwtTokenProvider jwtTokenProvider,
+                          AuthenticationConfiguration authenticationConfiguration) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtTokenProvider = jwtTokenProvider;
-        //스프링 시큐리티가 자동으로 구성해준 AuthenticationManager 를 사용하기 위함
         this.authenticationConfiguration = authenticationConfiguration;
     }
 
@@ -43,6 +49,8 @@ public class SecurityConfig {
                                 .requestMatchers(PUBLIC_URLS).permitAll() //public_url 은 통과
                                 .anyRequest().authenticated() // 그 외 다른 url 들은 인증필요하다.
                 )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 //체인의 맨 뒤에 추가
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(authenticationConfiguration),jwtTokenProvider))
                 //(x,y) y 의 앞쪽에 필터를 추가

@@ -1,7 +1,7 @@
 package com.test.buymebackend.config.security.jwt;
 
 import com.test.buymebackend.domain.member.exception.AuthErrorCode;
-import com.test.buymebackend.global.error.exception.CustomException;
+import com.test.buymebackend.global.exception.GlobalException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -85,13 +85,13 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new CustomException(AuthErrorCode.INVALID_TOKEN);
+            throw new GlobalException(AuthErrorCode.INVALID_TOKEN);
         } catch (UnsupportedJwtException e) {
-            throw new CustomException(AuthErrorCode.UNSUPPORTED_TOKEN);
+            throw new GlobalException(AuthErrorCode.UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
-            throw new CustomException(AuthErrorCode.INVALID_TOKEN_FORMAT);
+            throw new GlobalException(AuthErrorCode.INVALID_TOKEN_FORMAT);
         } catch (ExpiredJwtException e) {
-            throw new CustomException(AuthErrorCode.EXPIRED_TOKEN);
+            throw new GlobalException(AuthErrorCode.EXPIRED_TOKEN);
         }
     }
 }

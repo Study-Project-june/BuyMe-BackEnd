@@ -7,7 +7,7 @@ import com.test.buymebackend.config.security.auth.PrincipalDetail;
 import com.test.buymebackend.domain.member.dto.request.MemberRequest;
 import com.test.buymebackend.domain.member.exception.AuthErrorCode;
 import com.test.buymebackend.global.common.BaseResponse;
-import com.test.buymebackend.global.error.exception.CustomException;
+import com.test.buymebackend.global.exception.GlobalException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -90,7 +90,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         BaseResponse<Void> errorResponse;
 
         if (failed instanceof InternalAuthenticationServiceException &&
-                failed.getCause() instanceof CustomException customException) {
+                failed.getCause() instanceof GlobalException customException) {
             errorResponse = BaseResponse.error(customException.getResultCode());
         } else if (failed instanceof BadCredentialsException) {
             errorResponse = BaseResponse.error(AuthErrorCode.INVALID_PASSWORD);
